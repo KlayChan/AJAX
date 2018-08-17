@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<ul id="username"></ul>
+	<script>
+		var listElement = document.getElementById('username')
+		var xhr = new XMLHttpRequest()
+		xhr.open('GET','user.php')
+		xhr.send()
+		xhr.onreadystatechange = function (){
+			if (this.readyState !== 4) return
+			// js 中 JSON.parse() 可以把json 转化为js对象
+			var data = JSON.parse(this.responseText)
+			console.log(data)
+			for (var i=0;i<data.length;i++){
+                var liElement = document.createElement('li')
+                liElement.innerHTML = data[i].name
+                // 设置一个id
+                liElement.id = data[i].id
+                listElement.appendChild(liElement)
+                liElement.addEventListener('click',function(){
+                   var xhr1 = new XMLHttpRequest ()
+                   // 在这里以传参的方式提交id
+                   xhr1.open('GET','user.php?id='+this.id)
+                   xhr1.send()
+                   xhr1.onreadystatechange = function(){
+                   	   if (this.readyState !== 4) return
+                   	   var data2 = JSON.parse(this.responseText)
+                   	   alert(data2.age)
+                   }
+                })
+			}
+		}
+	</script>
+</body>
+</html>

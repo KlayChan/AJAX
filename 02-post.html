@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<td>用户名</td>
+			<td><input type="text" id="username"></td>
+	    </tr>
+		<tr>
+			<td>密码</td>
+			<td><input type="password" id="pwd" ></td>
+		</tr>
+		<tr>
+			<td><button id="btn">登录</button></td>
+		</tr>
+	</table>
+	<script>
+		//为按钮注册事件,获取元素
+		var btn = document.getElementById('btn')
+		// POST 要发送表单值，获取表单元素
+        var txtUsername = document.getElementById('username')
+        var txtPassword = document.getElementById('pwd')
+
+		btn.onclick = function (){
+		    var xhr = new XMLHttpRequest ()
+		    var username = txtUsername.value
+		    var password = txtPassword.value
+			xhr.open('POST','login.php')
+			// post 请求体是urlencoded 格式，那么要设置请求头
+			xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+			// post 请求体 的内容 形式 'key1=value1&key2=value2'
+			// xhr.send('username=' + username +'&' + 'pwd=' + password)
+			// js 有字符串模板引擎 ${},用反引号`` 括起来
+			xhr.send(`username=${username}&pwd=${password}`)
+			xhr.onreadystatechange = function () {
+				if(this.readyState !== 4) return
+				console.log(this.responseText)	
+			}	
+		}
+		
+	</script>
+</body>
+</html>
